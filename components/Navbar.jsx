@@ -25,7 +25,7 @@ function Navbar() {
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
         <Image source={Logo} style={{ height: 31, width: 31 }} />
-        <Text>Smart Water</Text>
+        <Text style={{ marginLeft: 7, color: "#1A3D7D", fontSize: 22, fontWeight: "bold" }}>Smart Water</Text>
       </View>
       <Ionicons name="ios-notifications-circle" size={40} color="#1A3D7D" />
     </View>
