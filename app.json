@@ -19,12 +19,20 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/tomas-logo.png",
+        "backgroundColor": "#ffffff",
+        "package": "com.mini.expo-app",
+        "versionCode": 1
+      },
+      "package": "com.timasbihngs.miniexpoapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "93fbfcfe-209c-4142-8773-48139a6c9a6f"
+      }
     }
   }
 }
