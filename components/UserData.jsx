@@ -4,7 +4,8 @@ import Checkbox from "expo-checkbox";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
 export default function UserData() {
-  const [isChecked, setChecked] = useState(false);
+  const [factura, setFactura] = useState(false);
+  const [contado, setContado] = useState(false);
   return (
     <View style={{ width: "100%" }}>
       <View style={styles.title}>
@@ -17,12 +18,12 @@ export default function UserData() {
       </View>
       <View style={styles.checkboxContainer}>
         <View style={styles.chakboxData}>
-          <Checkbox value={isChecked} onValueChange={setChecked} />
+          <Checkbox value={factura} onValueChange={setFactura} />
           <Text style={styles.checkboxTitle}>Factura</Text>
         </View>
 
         <View style={styles.chakboxData}>
-          <Checkbox value={isChecked} onValueChange={setChecked} />
+          <Checkbox value={contado} onValueChange={setContado} />
           <Text style={styles.checkboxTitle}>Contado</Text>
         </View>
       </View>

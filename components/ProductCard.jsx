@@ -1,28 +1,36 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesome5, AntDesign, Entypo } from "@expo/vector-icons";
 
-export default function ProductCard() {
-  const [quantity, setQuantity] = useState(0);
+export default function ProductCard({ removeCard, item, products }) {
+  const [quantity, setQuantity] = useState(1);
+  const [amount, setAmount] = useState(0);
+  const [unitPrice, setUnitPrice] = useState(0);
+
+  const handleQuantity = (instruction) => {
+    if (instruction === "Add") {
+      setQuantity(quantity + 1);
+    } else if (quantity > 1 && instruction === "Rest") {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  useEffect(() => {
+    setAmount(unitPrice * quantity);
+  }, [quantity]);
+
   return (
     <View style={styles.cardContainer}>
       <View style={styles.firstColumn}>
         <SelectDropdown
-          // data={countries}
-          // onSelect={(selectedItem, index) => {
-          //   console.log(selectedItem, index);
-          //   citiesDropdownRef.current.reset();
-          //   setCities([]);
-          //   setCities(selectedItem.cities);
-          // }}
-          defaultButtonText={"Select country"}
-          // buttonTextAfterSelection={(selectedItem, index) => {
-          //   return selectedItem.title;
-          // }}
-          // rowTextForSelection={(item, index) => {
-          //   return item.title;
-          // }}
+          data={products.map((product) => product.name)}
+          onSelect={(selectedItem, index) => {
+            let selected = products.find((el) => el.name === selectedItem);
+            setAmount(selected.price);
+            setUnitPrice(selected.price);
+          }}
+          defaultButtonText={"Producto"}
           buttonStyle={styles.dropdown1BtnStyle}
           buttonTextStyle={styles.dropdown1BtnTxtStyle}
           renderDropdownIcon={(isOpened) => {
@@ -43,19 +51,31 @@ export default function ProductCard() {
       <View style={styles.secondColumn}>
         <Text style={styles.quantity}>Cantidad</Text>
         <View style={styles.quantitySelector}>
-          <AntDesign name="minuscircleo" size={20} color="#005B96" />
+          <AntDesign
+            name="minuscircleo"
+            size={20}
+            color="#005B96"
+            onPress={() => handleQuantity("Rest")}
+          />
           <Text style={styles.quantityText}>{quantity}</Text>
-          <AntDesign name="pluscircleo" size={20} color="#005B96" />
+          <AntDesign
+            name="pluscircleo"
+            size={20}
+            color="#005B96"
+            onPress={() => handleQuantity("Add")}
+          />
         </View>
       </View>
       <View style={styles.thirdColumn}>
         <View style={styles.priceContainer}>
-          <Text style={styles.priceText}>15</Text>
+          <Text style={styles.priceText}>{amount}</Text>
           <View style={styles.currency}>
             <Text style={styles.currencyText}>Bs</Text>
           </View>
         </View>
-        <FontAwesome5 name="trash" size={24} color="red" />
+        <TouchableOpacity onPress={() => removeCard(item.id)}>
+          <FontAwesome5 name="trash" size={24} color="red" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -72,6 +92,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     height: 200,
     padding: 25,
+    marginVertical: 8,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
