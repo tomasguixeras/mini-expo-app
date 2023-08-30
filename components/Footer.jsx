@@ -4,7 +4,7 @@ import { Entypo } from "@expo/vector-icons";
 
 export default function Footer() {
   return (
-    <View>
+    <View style={styles.footerContainer}>
       <View style={styles.commentStyles}>
         <Entypo name="message" size={24} color="#1A3D7D" />
         <Text style={styles.commentText}>Agregar comentario</Text>
@@ -23,6 +23,9 @@ export default function Footer() {
 }
 
 const styles = StyleSheet.create({
+  footerContainer: {
+    width: "95%",
+  },
   commentStyles: {
     display: "flex",
     flexDirection: "row",

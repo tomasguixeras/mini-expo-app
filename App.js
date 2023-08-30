@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -13,9 +13,22 @@ import Navbar from "./components/Navbar";
 import ProductCard from "./components/ProductCard";
 import UserData from "./components/UserData";
 import AddProduct from "./components/AddProduct";
-import products from "./data/products.json";
+// import products from "./data/products.json";
+import user from "./data/user.json";
+import { loginUser, getProducts } from "./api/index";
 
 export default function App() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const logUser = await loginUser(user);
+      const apiProducts = await getProducts(logUser);
+      setProducts(apiProducts);
+    };
+    fetchData();
+  }, []);
+
   const [order, setOrder] = useState([
     {
       id: uuid.v4(),
@@ -41,25 +54,26 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <Navbar />
+      <Navbar />
+      <ScrollView style={styles.container}>
         <UserData />
         {/* <ScrollView contentContainerStyle={{ flexGrow: 1 }}> */}
-          <FlatList
-            data={order}
-            renderItem={({ item }) => (
-              <ProductCard
-                item={item}
-                removeCard={removeCard}
-                products={products}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-          />
-          <AddProduct addProduct={addProduct} />
+        <FlatList
+          data={order}
+          renderItem={({ item }) => (
+            <ProductCard
+              item={item}
+              removeCard={removeCard}
+              products={products}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+          nestedScrollEnabled={true}
+        />
+        <AddProduct addProduct={addProduct} />
         {/* </ScrollView> */}
-        <Footer />
-      </View>
+      </ScrollView>
+      <Footer />
     </SafeAreaView>
   );
 }

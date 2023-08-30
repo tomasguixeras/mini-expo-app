@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesome5, AntDesign, Entypo } from "@expo/vector-icons";
 
 export default function ProductCard({ removeCard, item, products }) {
   const [quantity, setQuantity] = useState(1);
-  const [amount, setAmount] = useState(0);
-  const [unitPrice, setUnitPrice] = useState(0);
+  // const [amount, setAmount] = useState(0);
+  // const [unitPrice, setUnitPrice] = useState(0);
+  const [userPrice, setUserPrice] = useState("");
 
   const handleQuantity = (instruction) => {
     if (instruction === "Add") {
@@ -16,20 +23,20 @@ export default function ProductCard({ removeCard, item, products }) {
     }
   };
 
-  useEffect(() => {
-    setAmount(unitPrice * quantity);
-  }, [quantity]);
+  // useEffect(() => {
+  //   setAmount(unitPrice * quantity);
+  // }, [quantity]);
 
   return (
     <View style={styles.cardContainer}>
       <View style={styles.firstColumn}>
         <SelectDropdown
           data={products.map((product) => product.name)}
-          onSelect={(selectedItem, index) => {
-            let selected = products.find((el) => el.name === selectedItem);
-            setAmount(selected.price);
-            setUnitPrice(selected.price);
-          }}
+          // onSelect={(selectedItem) => {
+          //   let selected = products.find((el) => el.name === selectedItem);
+          //   setAmount(selected.price);
+          //   setUnitPrice(selected.price);
+          // }}
           defaultButtonText={"Producto"}
           buttonStyle={styles.dropdown1BtnStyle}
           buttonTextStyle={styles.dropdown1BtnTxtStyle}
@@ -68,7 +75,13 @@ export default function ProductCard({ removeCard, item, products }) {
       </View>
       <View style={styles.thirdColumn}>
         <View style={styles.priceContainer}>
-          <Text style={styles.priceText}>{amount}</Text>
+          <TextInput
+            placeholder="0"
+            keyboardType="numeric"
+            value={userPrice}
+            onChangeText={setUserPrice}
+            style={styles.priceText}
+          />
           <View style={styles.currency}>
             <Text style={styles.currencyText}>Bs</Text>
           </View>
